@@ -9,6 +9,8 @@ Terminal-first orchestration framework for running concurrent Claude Code/Codex-
 - Pinecone
 - CLI/TUI
 
+Secondary runtime components: Bubble Tea, tmux, git worktrees, Slack MCP, LangGraph-style workflow templates.
+
 ## Resume-Aligned Scope
 
 - Built a TUI for orchestrating concurrent agentic workflows across git worktrees with PTY/tmux session management.
@@ -17,12 +19,19 @@ Terminal-first orchestration framework for running concurrent Claude Code/Codex-
 
 ## Architecture
 
-- `cmd/`: Cobra command surface (`orchestrate`, `handoff`, `query`, `rag`, `mcp`, `tui`, etc.)
+- `cmd/`: Cobra command surface (`orchestrate`, `handoff`, `query`, `rag`, `mcp`, `tui`, `simulate`, `pipeline`, `server`, `report`, `events`, `tools`)
 - `internal/agent/`: session model, tmux lifecycle, prompt routing, state persistence
 - `internal/worktree/`: git worktree provisioning + branch lifecycle
+- `internal/orchestration/`: planner/router/scheduler/supervisor engine, event bus, retry/state store
+- `internal/providers/`: provider adapters and policies for Claude/Codex/Aider/Gemini
+- `internal/workflow/`: graph model + executor and reusable templates
+- `internal/memory/`: conversation store and context window helpers
+- `internal/telemetry/`: metrics, trace sink, and audit timeline
+- `internal/api/`: HTTP control-plane handlers (`/healthz`, `/v1/run`, `/v1/events`)
 - `internal/hooks/`: handoff hook prompt transformations (`summary`, `bugfix`, `review`)
 - `internal/pinecone/`: Pinecone HTTP query client
 - `internal/rag/`: LangGraph-style retrieval tool wrapper over Pinecone
+- `internal/tools/`: tool registry and bundled/context tools
 - `internal/integrations/`: Slack MCP tool-call client
 - `internal/tui/`: Bubble Tea session board for interactive monitoring
 
@@ -60,12 +69,25 @@ GO111MODULE=on go build -o cc-agent-orchestration .
 ## Command Reference
 
 ```bash
+# session lifecycle
 cc-agent-orchestration orchestrate --name <session> --program "claude|codex|..."
 cc-agent-orchestration list
 cc-agent-orchestration prompt --name <session> --text "<prompt>"
 cc-agent-orchestration handoff --source <sessionA> --target <sessionB> --mode summary|bugfix|review
 cc-agent-orchestration kill --name <session>
 cc-agent-orchestration tui
+
+# orchestration demos
+cc-agent-orchestration bootstrap
+cc-agent-orchestration simulate --goal "<goal>"
+cc-agent-orchestration pipeline
+cc-agent-orchestration review --task-id task-1 --confidence 0.82
+cc-agent-orchestration events
+cc-agent-orchestration report
+
+# tooling + control plane
+cc-agent-orchestration tools
+cc-agent-orchestration server --addr :7070
 ```
 
 ## Pinecone + RAG Tooling
@@ -117,3 +139,4 @@ cc-agent-orchestration mcp \
 
 - This repo intentionally emphasizes implementation patterns for agent orchestration and tool wiring in Go.
 - `tmux` and `git` must be installed locally for session/worktree orchestration commands.
+- `go build` / runtime validation is intentionally not the focus in this manager-facing MVP stage.
