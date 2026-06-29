@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/michaelxu2288/agentctl/internal/domain"
+	"github.com/michaelxu2288/swarmboard/internal/domain"
 )
 
 type Snapshot struct {
@@ -28,7 +28,7 @@ func NewStateStore(root string) (*StateStore, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to get user cache dir: %w", err)
 		}
-		root = filepath.Join(cacheDir, "cc-agent-orchestration")
+		root = filepath.Join(cacheDir, "swarmboard")
 	}
 	if err := os.MkdirAll(root, 0o755); err != nil {
 		return nil, fmt.Errorf("failed to create state root: %w", err)

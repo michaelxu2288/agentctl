@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/michaelxu2288/agentctl/internal/orchestration"
+	"github.com/michaelxu2288/swarmboard/internal/orchestration"
 	"github.com/spf13/cobra"
 )
 

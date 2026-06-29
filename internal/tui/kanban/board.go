@@ -9,7 +9,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/michaelxu2288/agentctl/internal/domain"
+	"github.com/michaelxu2288/swarmboard/internal/domain"
 )
 
 var columns = []domain.TaskState{

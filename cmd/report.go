@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/michaelxu2288/agentctl/internal/telemetry"
+	"github.com/michaelxu2288/swarmboard/internal/telemetry"
 	"github.com/spf13/cobra"
 )
 

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/michaelxu2288/agentctl/internal/pinecone"
+	"github.com/michaelxu2288/swarmboard/internal/pinecone"
 	"github.com/spf13/cobra"
 )
 

@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/michaelxu2288/agentctl/internal/agent"
-	"github.com/michaelxu2288/agentctl/internal/tui"
+	"github.com/michaelxu2288/swarmboard/internal/agent"
+	"github.com/michaelxu2288/swarmboard/internal/tui"
 	"github.com/spf13/cobra"
 )
 

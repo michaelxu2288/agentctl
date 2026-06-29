@@ -7,26 +7,26 @@ Show a complete narrative of a multi-agent, tool-augmented, HITL-gated workflow 
 
 ```bash
 # initialize profile/config
-cc-agent-orchestration bootstrap
+swarmboard bootstrap
 
 # inspect available tools
-cc-agent-orchestration tools
+swarmboard tools
 
 # run orchestration simulation
-cc-agent-orchestration simulate \
+swarmboard simulate \
   --goal "implement feature flag rollout with slack + rag context"
 
 # inspect event stream
-cc-agent-orchestration events
+swarmboard events
 
 # execute template workflow graph
-cc-agent-orchestration pipeline
+swarmboard pipeline
 
 # show review gate behavior
-cc-agent-orchestration review --confidence 0.77 --task-id task-2
+swarmboard review --confidence 0.77 --task-id task-2
 
 # emit manager-facing report snapshot
-cc-agent-orchestration report
+swarmboard report
 ```
 
 ## Talking Points
@@ -40,7 +40,7 @@ cc-agent-orchestration report
 ## Optional API Demo
 
 ```bash
-cc-agent-orchestration server --addr :7070
+swarmboard server --addr :7070
 
 curl -X POST http://localhost:7070/v1/run \
   -H 'content-type: application/json' \

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/michaelxu2288/agentctl/internal/pinecone"
+	"github.com/michaelxu2288/swarmboard/internal/pinecone"
 )
 
 type LangGraphRetriever struct {

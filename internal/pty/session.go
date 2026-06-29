@@ -36,7 +36,7 @@ type TmuxBackend struct {
 
 func (t TmuxBackend) sess(name string) string {
 	if t.Prefix == "" {
-		t.Prefix = "agentctl"
+		t.Prefix = "swarmboard"
 	}
 	return t.Prefix + "_" + name
 }
@@ -76,7 +76,7 @@ func (t TmuxBackend) List() ([]string, error) {
 	all := strings.Split(strings.TrimSpace(out), "\n")
 	pref := t.Prefix
 	if pref == "" {
-		pref = "agentctl"
+		pref = "swarmboard"
 	}
 	mine := make([]string, 0, len(all))
 	for _, s := range all {

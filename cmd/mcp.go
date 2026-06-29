@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/michaelxu2288/agentctl/internal/integrations"
+	"github.com/michaelxu2288/swarmboard/internal/integrations"
 	"github.com/spf13/cobra"
 )
 

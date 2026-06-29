@@ -1,4 +1,4 @@
-module github.com/michaelxu2288/agentctl
+module github.com/michaelxu2288/swarmboard
 
 go 1.23.0
 

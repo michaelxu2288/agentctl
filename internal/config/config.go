@@ -66,7 +66,7 @@ func ConfigPath() (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to resolve config dir: %w", err)
 	}
-	root := filepath.Join(configDir, "cc-agent-orchestration")
+	root := filepath.Join(configDir, "swarmboard")
 	if err := os.MkdirAll(root, 0o755); err != nil {
 		return "", fmt.Errorf("failed to create config root: %w", err)
 	}

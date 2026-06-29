@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/michaelxu2288/agentctl/internal/domain"
+	"github.com/michaelxu2288/swarmboard/internal/domain"
 )
 
 type Supervisor struct {

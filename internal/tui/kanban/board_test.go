@@ -3,7 +3,7 @@ package kanban
 import (
 	"testing"
 
-	"github.com/michaelxu2288/agentctl/internal/domain"
+	"github.com/michaelxu2288/swarmboard/internal/domain"
 )
 
 func TestAdvanceMovesAcrossColumns(t *testing.T) {

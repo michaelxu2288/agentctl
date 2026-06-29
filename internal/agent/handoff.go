@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/michaelxu2288/agentctl/internal/hooks"
+	"github.com/michaelxu2288/swarmboard/internal/hooks"
 )
 
 func (m *Manager) PipePrompt(source, target string, mode hooks.Mode, maxLines int) error {

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/michaelxu2288/agentctl/internal/pinecone"
-	"github.com/michaelxu2288/agentctl/internal/rag"
+	"github.com/michaelxu2288/swarmboard/internal/pinecone"
+	"github.com/michaelxu2288/swarmboard/internal/rag"
 	"github.com/spf13/cobra"
 )
 

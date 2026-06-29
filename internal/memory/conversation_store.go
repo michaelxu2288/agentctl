@@ -24,7 +24,7 @@ func NewConversationStore() (*ConversationStore, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to get cache dir: %w", err)
 	}
-	root := filepath.Join(cacheDir, "cc-agent-orchestration")
+	root := filepath.Join(cacheDir, "swarmboard")
 	if err := os.MkdirAll(root, 0o755); err != nil {
 		return nil, fmt.Errorf("failed to create cache root: %w", err)
 	}

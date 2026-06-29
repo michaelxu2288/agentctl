@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/michaelxu2288/agentctl/internal/agent"
-	"github.com/michaelxu2288/agentctl/internal/domain"
-	"github.com/michaelxu2288/agentctl/internal/tui/kanban"
+	"github.com/michaelxu2288/swarmboard/internal/agent"
+	"github.com/michaelxu2288/swarmboard/internal/domain"
+	"github.com/michaelxu2288/swarmboard/internal/tui/kanban"
 	"github.com/spf13/cobra"
 )
 

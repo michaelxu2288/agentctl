@@ -1,4 +1,4 @@
-# agentctl
+# swarmboard
 
 > Terminal-native control plane for an autonomous multi-agent coding swarm.
 
@@ -9,7 +9,7 @@
 [![Status](https://img.shields.io/badge/status-POC-orange)](#status)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-`agentctl` schedules a **swarm** of coding agents (Claude Code / Codex / Aider / Gemini)
+`swarmboard` schedules a **swarm** of coding agents (Claude Code / Codex / Aider / Gemini)
 across isolated git worktrees and PTY/tmux sessions. A **master coordinator** dispatches
 work to **worker agents** over an internal gossip bus, agents hand off context to each
 other, and the whole fleet renders as a live **kanban board** in your terminal. Buzzword
@@ -45,7 +45,9 @@ edition, but it builds, tests, and runs.
 
 ## Tech stack
 
-Go · Cobra · Bubble Tea / Lip Gloss · tmux · git worktrees · Pinecone · LangGraph-style RAG · Slack MCP
+**Go · Claude Code (Agent SDK) · Bubble Tea · tmux · git worktrees**
+
+<sub>Supporting: Cobra · Lip Gloss · Pinecone · LangGraph-style RAG · Slack MCP</sub>
 
 ## Status
 
@@ -54,23 +56,23 @@ POC. The orchestration, swarm, kanban, and PTY layers compile and are unit-teste
 ## Quick start
 
 ```bash
-go build -o agentctl .
+go build -o swarmboard .
 
 # fan a goal across a master + 3 workers, tail the bus
-./agentctl swarm --workers 3 --goal "ship the feature"
+./swarmboard swarm --workers 3 --goal "ship the feature"
 
 # open the kanban board
-./agentctl kanban
+./swarmboard kanban
 
 # launch an agent in an isolated worktree + tmux
-./agentctl orchestrate --name planner --provider claude --program "claude"
+./swarmboard orchestrate --name planner --provider claude --program "claude"
 
 # hand off context planner -> coder
-./agentctl handoff --source planner --target coder --mode bugfix
+./swarmboard handoff --source planner --target coder --mode bugfix
 
 # inspect live PTY panes
-./agentctl pty ls
-./agentctl pty capture planner --lines 40
+./swarmboard pty ls
+./swarmboard pty capture planner --lines 40
 ```
 
 ## Architecture

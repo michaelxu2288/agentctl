@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/michaelxu2288/agentctl/internal/swarm"
+	"github.com/michaelxu2288/swarmboard/internal/swarm"
 	"github.com/spf13/cobra"
 )
 

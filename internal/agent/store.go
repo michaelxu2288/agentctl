@@ -17,7 +17,7 @@ func NewStore() (*Store, error) {
 		return nil, fmt.Errorf("failed to read user config dir: %w", err)
 	}
 
-	root := filepath.Join(configDir, "cc-agent-orchestration")
+	root := filepath.Join(configDir, "swarmboard")
 	if err := os.MkdirAll(root, 0o755); err != nil {
 		return nil, fmt.Errorf("failed to create config root: %w", err)
 	}

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/michaelxu2288/agentctl/internal/worktree"
+	"github.com/michaelxu2288/swarmboard/internal/worktree"
 )
 
 type Manager struct {

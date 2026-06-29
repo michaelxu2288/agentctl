@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/michaelxu2288/agentctl/internal/tools"
+	"github.com/michaelxu2288/swarmboard/internal/tools"
 	"github.com/spf13/cobra"
 )
 

@@ -12,9 +12,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "agentctl",
+	Use:   "swarmboard",
 	Short: "Control plane for an autonomous multi-agent swarm",
-	Long:  "agentctl is a terminal-native control plane for orchestrating swarms of coding agents across isolated git worktrees, PTY/tmux sessions, a master/worker scheduler, an internal gossip bus, and a kanban TUI.",
+	Long:  "swarmboard is a terminal-native control plane for orchestrating swarms of coding agents across isolated git worktrees, PTY/tmux sessions, a master/worker scheduler, an internal gossip bus, and a kanban TUI.",
 }
 
 func Execute() {

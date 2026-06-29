@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/michaelxu2288/agentctl/internal/orchestration"
+	"github.com/michaelxu2288/swarmboard/internal/orchestration"
 )
 
 type Handlers struct {
