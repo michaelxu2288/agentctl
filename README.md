@@ -1,4 +1,4 @@
-# swarmboard
+# agentctl swarmboard
 
 > Terminal-native control plane for an autonomous multi-agent coding swarm.
 
