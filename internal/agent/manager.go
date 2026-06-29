@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/worktree"
+	"github.com/michaelxu2288/agentctl/internal/worktree"
 )
 
 type Manager struct {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/orchestration"
+	"github.com/michaelxu2288/agentctl/internal/orchestration"
 	"github.com/spf13/cobra"
 )
 

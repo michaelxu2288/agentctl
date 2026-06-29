@@ -1,6 +1,6 @@
 package orchestration
 
-import "github.com/michaelxu2288/cc-agent-orchestraiton/internal/domain"
+import "github.com/michaelxu2288/agentctl/internal/domain"
 
 type Strategy string
 

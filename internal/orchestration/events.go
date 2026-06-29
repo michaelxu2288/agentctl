@@ -3,7 +3,7 @@ package orchestration
 import (
 	"sync"
 
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/domain"
+	"github.com/michaelxu2288/agentctl/internal/domain"
 )
 
 type EventBus struct {

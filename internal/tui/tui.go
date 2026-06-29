@@ -7,7 +7,7 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/agent"
+	"github.com/michaelxu2288/agentctl/internal/agent"
 )
 
 type sessionItem struct {

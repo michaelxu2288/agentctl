@@ -21,7 +21,7 @@ func NewManager(repoPath string) (*Manager, error) {
 		return nil, fmt.Errorf("failed to read user config dir: %w", err)
 	}
 
-	root := filepath.Join(configDir, "cc-agent-orchestration", "worktrees")
+	root := filepath.Join(configDir, "agentctl", "worktrees")
 	if err := os.MkdirAll(root, 0o755); err != nil {
 		return nil, fmt.Errorf("failed to create worktree root: %w", err)
 	}

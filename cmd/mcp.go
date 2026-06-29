@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/integrations"
+	"github.com/michaelxu2288/agentctl/internal/integrations"
 	"github.com/spf13/cobra"
 )
 

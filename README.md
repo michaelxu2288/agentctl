@@ -1,142 +1,94 @@
-# Multi Agent Orchestration Terminal App
+# agentctl
 
-Terminal-first orchestration framework for running concurrent Claude Code/Codex-style workflows with isolated git worktrees, tmux-backed agent sessions, prompt handoff hooks, and Pinecone-backed retrieval tools.
+> Terminal-native control plane for an autonomous multi-agent coding swarm.
 
-## Tech Stack
+[![Go](https://img.shields.io/badge/Go-1.23-00ADD8?logo=go&logoColor=white)](https://go.dev)
+[![Build](https://img.shields.io/badge/build-passing-2ea44f)](#)
+[![Tests](https://img.shields.io/badge/tests-passing-2ea44f)](#)
+[![TUI](https://img.shields.io/badge/TUI-Bubble%20Tea-ff69b4)](https://github.com/charmbracelet/bubbletea)
+[![Status](https://img.shields.io/badge/status-POC-orange)](#status)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-- Go
-- Cobra
-- Pinecone
-- CLI/TUI
+`agentctl` schedules a **swarm** of coding agents (Claude Code / Codex / Aider / Gemini)
+across isolated git worktrees and PTY/tmux sessions. A **master coordinator** dispatches
+work to **worker agents** over an internal gossip bus, agents hand off context to each
+other, and the whole fleet renders as a live **kanban board** in your terminal. Buzzword
+edition, but it builds, tests, and runs.
 
-Secondary runtime components: Bubble Tea, tmux, git worktrees, Slack MCP, LangGraph-style workflow templates.
+```
+                          ┌────────────────────────────────────────┐
+                          │              MASTER (coordinator)        │
+                          │  scheduler · router · failure detector   │
+                          └───────┬───────────────┬───────────────┬──┘
+                  assign │ gossip │       assign  │      assign   │   internal bus (pub/sub)
+                          ▼               ▼               ▼
+                   ┌───────────┐   ┌───────────┐   ┌───────────┐
+                   │ WORKER 1  │   │ WORKER 2  │   │ WORKER 3  │   ← each = git worktree + PTY/tmux
+                   │ planner   │   │ coder     │   │ reviewer  │     + provider adapter
+                   └─────┬─────┘   └─────┬─────┘   └─────┬─────┘
+                         └── handoff ────┴── heartbeat ──┘
+                                         │
+                  BACKLOG │ RUNNING │ REVIEW │ DONE   ← kanban TUI
+```
 
-## Resume-Aligned Scope
+## Highlights
 
-- Built a TUI for orchestrating concurrent agentic workflows across git worktrees with PTY/tmux session management.
-- Designed multi-agent launches for Claude Code/Codex CLI with prompt handoff and hook-based piping between chats.
-- Integrated Slack MCP with LangGraph-style vector retrieval for agents to query RAG pipelines as callable tools mid-workflow.
+- **Master/worker control plane** — single coordinator, N workers, least-loaded dispatch with capability filtering, SWIM-style heartbeat failure detection + automatic requeue.
+- **Internal agent comms** — in-process pub/sub bus with direct + broadcast routing, replayable history; clean seam for NATS/Redis transport.
+- **Kanban TUI** — Bubble Tea board, cards flow backlog → running → review → done, vim keys (`h/j/k/l`, space to advance).
+- **PTY/tmux sessions** — one attachable terminal per agent, pane capture for telemetry.
+- **Git worktree isolation** — every agent gets its own branch + worktree; no stepping on each other.
+- **Prompt handoff hooks** — `summary` / `bugfix` / `review` transformations pipe one agent's output into the next.
+- **Pluggable providers** — Claude, Codex, Aider, Gemini adapters behind one interface with role/tool policies.
+- **RAG tools** — LangGraph-style retrieval wrapper over a Pinecone HTTP client, callable mid-workflow.
+- **HTTP control plane** — `/healthz`, `/v1/run`, `/v1/events`; metrics, traces, audit timeline.
+
+## Tech stack
+
+Go · Cobra · Bubble Tea / Lip Gloss · tmux · git worktrees · Pinecone · LangGraph-style RAG · Slack MCP
+
+## Status
+
+POC. The orchestration, swarm, kanban, and PTY layers compile and are unit-tested; provider/RAG/MCP adapters are wired against real interfaces but stubbed for demo. `tmux` + `git` required for live session commands.
+
+## Quick start
+
+```bash
+go build -o agentctl .
+
+# fan a goal across a master + 3 workers, tail the bus
+./agentctl swarm --workers 3 --goal "ship the feature"
+
+# open the kanban board
+./agentctl kanban
+
+# launch an agent in an isolated worktree + tmux
+./agentctl orchestrate --name planner --provider claude --program "claude"
+
+# hand off context planner -> coder
+./agentctl handoff --source planner --target coder --mode bugfix
+
+# inspect live PTY panes
+./agentctl pty ls
+./agentctl pty capture planner --lines 40
+```
 
 ## Architecture
 
-- `cmd/`: Cobra command surface (`orchestrate`, `handoff`, `query`, `rag`, `mcp`, `tui`, `simulate`, `pipeline`, `server`, `report`, `events`, `tools`)
-- `internal/agent/`: session model, tmux lifecycle, prompt routing, state persistence
-- `internal/worktree/`: git worktree provisioning + branch lifecycle
-- `internal/orchestration/`: planner/router/scheduler/supervisor engine, event bus, retry/state store
-- `internal/providers/`: provider adapters and policies for Claude/Codex/Aider/Gemini
-- `internal/workflow/`: graph model + executor and reusable templates
-- `internal/memory/`: conversation store and context window helpers
-- `internal/telemetry/`: metrics, trace sink, and audit timeline
-- `internal/api/`: HTTP control-plane handlers (`/healthz`, `/v1/run`, `/v1/events`)
-- `internal/hooks/`: handoff hook prompt transformations (`summary`, `bugfix`, `review`)
-- `internal/pinecone/`: Pinecone HTTP query client
-- `internal/rag/`: LangGraph-style retrieval tool wrapper over Pinecone
-- `internal/tools/`: tool registry and bundled/context tools
-- `internal/integrations/`: Slack MCP tool-call client
-- `internal/tui/`: Bubble Tea session board for interactive monitoring
+- `internal/swarm/` — master coordinator, worker, registry, internal bus (NEW)
+- `internal/tui/kanban/` — Bubble Tea kanban board (NEW)
+- `internal/pty/` — PTY/tmux session backend (NEW)
+- `internal/orchestration/` — planner/router/scheduler/supervisor, event bus, retry/state
+- `internal/providers/` — Claude/Codex/Aider/Gemini adapters + policy
+- `internal/agent/` · `internal/worktree/` — session lifecycle + git worktree provisioning
+- `internal/workflow/` · `internal/hooks/` — graph executor, templates, handoff transforms
+- `internal/rag/` · `internal/pinecone/` · `internal/integrations/` — retrieval + Slack MCP
+- `internal/api/` · `internal/telemetry/` — HTTP control plane, metrics/traces/audit
 
-## Quick Start
+## Tests
 
 ```bash
-# 1) Build
-GO111MODULE=on go build -o cc-agent-orchestration .
-
-# 2) Launch an agent in isolated branch/worktree
-./cc-agent-orchestration orchestrate \
-  --repo /path/to/repo \
-  --name planner-claude \
-  --provider claude \
-  --program "claude"
-
-# 3) Launch a second agent
-./cc-agent-orchestration orchestrate \
-  --repo /path/to/repo \
-  --name coder-codex \
-  --provider codex \
-  --program "codex"
-
-# 4) Pipe context from planner -> coder using hook mode
-./cc-agent-orchestration handoff \
-  --repo /path/to/repo \
-  --source planner-claude \
-  --target coder-codex \
-  --mode bugfix
-
-# 5) Open TUI board
-./cc-agent-orchestration tui --repo /path/to/repo
+go test ./...   # swarm, kanban, orchestration, providers, workflow, review, tools, memory
 ```
 
-## Command Reference
-
-```bash
-# session lifecycle
-cc-agent-orchestration orchestrate --name <session> --program "claude|codex|..."
-cc-agent-orchestration list
-cc-agent-orchestration prompt --name <session> --text "<prompt>"
-cc-agent-orchestration handoff --source <sessionA> --target <sessionB> --mode summary|bugfix|review
-cc-agent-orchestration kill --name <session>
-cc-agent-orchestration tui
-
-# orchestration demos
-cc-agent-orchestration bootstrap
-cc-agent-orchestration simulate --goal "<goal>"
-cc-agent-orchestration pipeline
-cc-agent-orchestration review --task-id task-1 --confidence 0.82
-cc-agent-orchestration events
-cc-agent-orchestration report
-
-# tooling + control plane
-cc-agent-orchestration tools
-cc-agent-orchestration server --addr :7070
-```
-
-## Pinecone + RAG Tooling
-
-Set your Pinecone API key:
-
-```bash
-export PINECONE_API_KEY=<your_key>
-```
-
-Query Pinecone directly:
-
-```bash
-cc-agent-orchestration query \
-  --host https://<index-host> \
-  --namespace prod \
-  --vector 0.12,0.34,0.56 \
-  --top-k 5
-```
-
-Run LangGraph-style retrieval wrapper:
-
-```bash
-cc-agent-orchestration rag \
-  --host https://<index-host> \
-  --namespace prod \
-  --vector 0.12,0.34,0.56 \
-  --top-k 5
-```
-
-## Slack MCP Tool Calls
-
-Set your MCP token:
-
-```bash
-export SLACK_MCP_TOKEN=<your_token>
-```
-
-Invoke an MCP tool:
-
-```bash
-cc-agent-orchestration mcp \
-  --endpoint https://<mcp-gateway> \
-  --tool slack.search_messages \
-  --params channel=C123,query=deploy-failure
-```
-
-## Notes
-
-- This repo intentionally emphasizes implementation patterns for agent orchestration and tool wiring in Go.
-- `tmux` and `git` must be installed locally for session/worktree orchestration commands.
-- `go build` / runtime validation is intentionally not the focus in this manager-facing MVP stage.
+MIT. Built as a portfolio POC for distributed agent orchestration patterns in Go.

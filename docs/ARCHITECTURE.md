@@ -52,6 +52,18 @@ This MVP is intentionally implementation-heavy to demonstrate a credible multi-a
 - Trace sink (JSONL)
 - Audit trail renderer
 
+9. Swarm control plane (`internal/swarm/`)
+- Master coordinator: least-loaded dispatch, capability filtering, reservation, requeue
+- Worker nodes: heartbeat, assignment handling, result/escalate replies
+- Registry: SWIM-style alive/suspect/dead failure detection
+- Internal bus: in-process pub/sub with direct + broadcast routing and replayable history
+
+10. Kanban TUI (`internal/tui/kanban/`)
+- Bubble Tea board; cards flow backlog -> running -> review -> done; vim keys
+
+11. PTY sessions (`internal/pty/`)
+- tmux-backed spawn/send/capture/kill; pluggable backend interface for native PTY
+
 ## Data Objects
 
 - `Task`: queued/running/reviewing lifecycle

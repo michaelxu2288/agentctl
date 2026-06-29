@@ -12,9 +12,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "cc-agent-orchestration",
-	Short: "Multi-agent orchestration terminal app for Claude Code-style workflows",
-	Long:  "Orchestrate concurrent AI agent workflows with git worktrees, tmux sessions, prompt handoffs, and Pinecone retrieval tools.",
+	Use:   "agentctl",
+	Short: "Control plane for an autonomous multi-agent swarm",
+	Long:  "agentctl is a terminal-native control plane for orchestrating swarms of coding agents across isolated git worktrees, PTY/tmux sessions, a master/worker scheduler, an internal gossip bus, and a kanban TUI.",
 }
 
 func Execute() {

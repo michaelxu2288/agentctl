@@ -1,6 +1,6 @@
 package main
 
-import "github.com/michaelxu2288/cc-agent-orchestraiton/cmd"
+import "github.com/michaelxu2288/agentctl/cmd"
 
 func main() {
 	cmd.Execute()

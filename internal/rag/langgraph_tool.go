@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/pinecone"
+	"github.com/michaelxu2288/agentctl/internal/pinecone"
 )
 
 type LangGraphRetriever struct {

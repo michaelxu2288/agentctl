@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/orchestration"
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/providers"
+	"github.com/michaelxu2288/agentctl/internal/orchestration"
+	"github.com/michaelxu2288/agentctl/internal/providers"
 )
 
 func newProviderRegistry() *providers.Registry {

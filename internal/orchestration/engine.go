@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/domain"
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/providers"
+	"github.com/michaelxu2288/agentctl/internal/domain"
+	"github.com/michaelxu2288/agentctl/internal/providers"
 )
 
 type Engine struct {

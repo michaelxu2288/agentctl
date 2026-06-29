@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/domain"
+	"github.com/michaelxu2288/agentctl/internal/domain"
 )
 
 type Planner struct{}

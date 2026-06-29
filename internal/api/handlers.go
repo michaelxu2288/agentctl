@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/michaelxu2288/cc-agent-orchestraiton/internal/orchestration"
+	"github.com/michaelxu2288/agentctl/internal/orchestration"
 )
 
 type Handlers struct {
